@@ -1,17 +1,75 @@
 package Workshop4;
 
-import java.io.InputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class WriteStudents {
 
+    private static Student createNewStudent() {
+        int sid= 0;
+        String fname, lname;
+        ArrayList<String> courses = new ArrayList<String>(3);
+
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Student ID: ");
+        sid = sc.nextInt();
+        sc.nextLine();//consuming \n
+
+        System.out.print("First Name: ");
+        fname = sc.nextLine();
+        System.out.print("Last Name: ");
+        lname = sc.nextLine();
+
+        System.out.println("Courses (E - Exit): ");
+
+        int i=1;
+        while (i != -1)
+        {
+            System.out.print(i + "- ");
+            courses.add(sc.nextLine());
+            i++;
+            //Exit condition control
+            if((courses.get(courses.size() -1)).toUpperCase().equals("E"))
+            {
+                courses.remove(courses.size()-1);
+                i = -1;
+            }
+        }
+        return new Student(sid,fname,lname,courses);
+    }
+
+    private static void writeToFile(ArrayList<Student> list)
+    {
+        try{
+            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("temp.dat"));
+            for (Student currentStudent : list) {
+                os.writeObject(currentStudent);
+            }
+        } catch (IOException ex)
+        {
+            ex.printStackTrace(); //TODO: Apparently this is what everyone does, ask prof what to do with catches
+        }
+    }
+
     public static void main(String [] args)
     {
-        ArrayList<String> courses = new ArrayList<String>(Arrays.asList("BCI433","WEB422","JAC444"));
-        Student Abdul = new Student(22,"Abdul Rehman","Jahangir",courses);
-        System.out.println(Abdul);
-        //create input stream here
+       ArrayList<Student> studentArrayList = new ArrayList<Student>(4);
+        Scanner mainSC = new Scanner(System.in);
+        int choice =0;
+        do {
+            System.out.println("1- Create student\n2- Write to file\n3-View students\n4-End program");
+            choice = mainSC.nextInt();
+            if (choice == 1) {
+                System.out.println("adding...");
+                studentArrayList.add(createNewStudent());
+            } else if (choice == 2) {
+                System.out.println("writing...");
+                writeToFile(studentArrayList);
+            } else if (choice == 3)
+                System.out.println(studentArrayList);
+        } while (choice != 4);
     }
 }

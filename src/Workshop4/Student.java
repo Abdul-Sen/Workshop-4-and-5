@@ -10,6 +10,12 @@ public class Student implements Serializable {
     private String lastName;
     private ArrayList<String> courses;
 
+    public Student(int stdID, String firstName, String lastName) {
+        this.stdID = stdID;
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     public int getStdID() {
         return stdID;
     }

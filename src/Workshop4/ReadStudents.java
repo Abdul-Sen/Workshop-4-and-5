@@ -7,20 +7,8 @@ import java.util.ArrayList;
 
 public class ReadStudents {
 
-    public static void main(String [] args)
-    {
-        ArrayList<Student> studentArrayList = new ArrayList<Student>(5);
-        try {
-            readFile(args[0]);
-        }
-        catch (ClassNotFoundException | IOException ex)
-        {
-            ex.printStackTrace();
-        }
-    }
 
-
-    private static ArrayList<Student> readFile(String fileName) throws IOException, ClassNotFoundException {
+        public ArrayList<Student> readFile(String fileName) throws IOException, ClassNotFoundException {
 
         ObjectInputStream is = new ObjectInputStream(new FileInputStream(fileName));
 
@@ -28,17 +16,17 @@ public class ReadStudents {
         boolean cont = true;
         while(cont)
         {
-           Student s =  (Student) is.readObject();
-           if(s != null)
-           {
-               studentArrayList.add(s);
-           }
-           else
-           {
-               cont = false;
-           }
+            Student s =  (Student) is.readObject();
+            if(s != null)
+            {
+                studentArrayList.add(s);
+            }
+            else
+            {
+                cont = false;
+                is.close();
+            }
         }
         return studentArrayList;
     }
-
 }

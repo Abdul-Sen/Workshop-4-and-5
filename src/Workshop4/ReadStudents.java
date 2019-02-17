@@ -1,25 +1,44 @@
 package Workshop4;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public class ReadStudents {
+
     public static void main(String [] args)
     {
-        System.out.println("in main");
+        ArrayList<Student> studentArrayList = new ArrayList<Student>(5);
         try {
-            ObjectInputStream is = new ObjectInputStream(new FileInputStream("temp.dat"));
-            int sid = is.readInt();
-            String fName = is.toString();
-            String lName = is.toString();
-            ArrayList<String> s = new ArrayList<String>(2);
-
-        } catch (IOException exception)
+            readFile(args[0]);
+        }
+        catch (ClassNotFoundException | IOException ex)
         {
-            exception.printStackTrace();
+            ex.printStackTrace();
         }
     }
+
+
+    private static ArrayList<Student> readFile(String fileName) throws IOException, ClassNotFoundException {
+
+        ObjectInputStream is = new ObjectInputStream(new FileInputStream(fileName));
+
+        ArrayList<Student> studentArrayList = new ArrayList<Student>(3);
+        boolean cont = true;
+        while(cont)
+        {
+           Student s =  (Student) is.readObject();
+           if(s != null)
+           {
+               studentArrayList.add(s);
+           }
+           else
+           {
+               cont = false;
+           }
+        }
+        return studentArrayList;
+    }
+
 }

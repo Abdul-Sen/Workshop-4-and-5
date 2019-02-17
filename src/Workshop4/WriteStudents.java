@@ -41,13 +41,12 @@ public class WriteStudents {
         return new Student(sid,fName,lName,courses);
     }
 
-    private static void writeToFile(ArrayList<Student> list)
+    private static void writeToFile(ArrayList<Student> list, String fileName)
     {
         try{
-            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("temp.dat"));
+            ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fileName));
             for (Student currentStudent : list) {
                 os.writeObject(currentStudent);
-
             }
             os.close();
         } catch (IOException ex)
@@ -57,22 +56,22 @@ public class WriteStudents {
 
     }
 
-//    public static void main(String [] args)
-//    {
-//       ArrayList<Student> studentArrayList = new ArrayList<Student>(4);
-//        Scanner mainSC = new Scanner(System.in);
-//        int choice =0;
-//        do {
-//            System.out.println("1- Create student\n2- Write to file\n3-View students\n4-End program");
-//            choice = mainSC.nextInt();
-//            if (choice == 1) {
-//                System.out.println("adding...");
-//                studentArrayList.add(createNewStudent());
-//            } else if (choice == 2) {
-//                System.out.println("writing...");
-//                writeToFile(studentArrayList);
-//            } else if (choice == 3)
-//                System.out.println(studentArrayList);
-//        } while (choice != 4);
-//    }
+    public static void main(String [] args)
+    {
+       ArrayList<Student> studentArrayList = new ArrayList<Student>(4);
+        Scanner mainSC = new Scanner(System.in);
+        int choice =0;
+        do {
+            System.out.println("1- Create student\n2- Write to file\n3-View students\n4-End program");
+            choice = mainSC.nextInt();
+            if (choice == 1) {
+                System.out.println("adding...");
+                studentArrayList.add(createNewStudent());
+            } else if (choice == 2) {
+                System.out.println("writing...");
+                writeToFile(studentArrayList,args[0]);
+            } else if (choice == 3)
+                System.out.println(studentArrayList);
+        } while (choice != 4);
+    }
 }
